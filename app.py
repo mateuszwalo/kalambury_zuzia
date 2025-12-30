@@ -15,6 +15,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# Meta viewport dla urządzeń mobilnych
+st.markdown('''
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+''', unsafe_allow_html=True)
+
 # Wstrzyknięcie stylów CSS
 st.markdown(get_custom_css(), unsafe_allow_html=True)
 

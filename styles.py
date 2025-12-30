@@ -6,14 +6,37 @@ def get_custom_css():
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
     
     /* ===== GŁÓWNE STYLE ===== */
+    
+    /* Zapewnienie prawidłowego skalowania na urządzeniach mobilnych */
+    html {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+    
+    * {
+        box-sizing: border-box;
+    }
+    
     .stApp {
         background: linear-gradient(135deg, #FF6B9D 0%, #C44FE2 100%);
         font-family: 'Quicksand', sans-serif;
+        min-height: 100vh;
+        min-height: 100dvh; /* Dynamic viewport height dla mobilnych przeglądarek */
     }
     
     /* Ukryj domyślny header Streamlit */
     header[data-testid="stHeader"] {
         background: transparent;
+    }
+    
+    /* Fix dla paska nawigacji Streamlit na mobilnych */
+    section[data-testid="stSidebar"] {
+        z-index: 999999;
+    }
+    
+    /* Ukryj menu hamburger na mobilnych jeśli sidebar jest schowany */
+    button[kind="header"] {
+        display: none;
     }
     
     /* ===== ANIMOWANE SERDUSZKA W TLE ===== */
@@ -413,11 +436,51 @@ def get_custom_css():
         overflow: hidden;
     }
     
-    /* ===== GŁÓWNY KONTENER - SZERSZY ===== */
+    /* ===== GŁÓWNY KONTENER ===== */
     .main .block-container {
         max-width: 1200px;
         padding-left: 2rem;
         padding-right: 2rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    /* Fix dla kolumn Streamlit na mobilnych */
+    @media (max-width: 640px) {
+        div[data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+            min-width: 100% !important;
+        }
+        
+        /* Dodaj odstęp między kartami gdy są pod sobą */
+        div[data-testid="column"]:not(:last-child) {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Zmniejsz marginesy między elementami */
+        .element-container {
+            margin-bottom: 0.5rem !important;
+        }
+        
+        /* Przyciski akcji - stack na mobilnych */
+        div[data-testid="stHorizontalBlock"] {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            flex: 1 1 calc(50% - 0.25rem) !important;
+            min-width: calc(50% - 0.25rem) !important;
+        }
+    }
+    
+    /* Na bardzo małych ekranach przyciski jeden pod drugim */
+    @media (max-width: 380px) {
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {
+            flex: 1 1 100% !important;
+            min-width: 100% !important;
+        }
     }
     
     /* ===== SUWAK RUND - BIAŁY I WIDOCZNY ===== */
@@ -534,33 +597,451 @@ def get_custom_css():
     }
     
     /* ===== RESPONSYWNOŚĆ ===== */
+    
+    /* Tablety i małe laptopy */
+    @media (max-width: 992px) {
+        .main .block-container {
+            max-width: 100%;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        
+        .game-title {
+            font-size: 3.5rem;
+        }
+        
+        .game-subtitle {
+            font-size: 1.4rem;
+        }
+        
+        .word-text {
+            font-size: 3rem;
+        }
+        
+        .player-score {
+            font-size: 3rem;
+        }
+        
+        .player-name {
+            font-size: 1.7rem;
+        }
+    }
+    
+    /* Tablety w pionie i duże telefony */
     @media (max-width: 768px) {
+        .main .block-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
         .game-title {
             font-size: 2.5rem;
         }
         
-        .word-text {
-            font-size: 2.5rem;
+        .game-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
         }
         
-        .timer-text {
-            font-size: 3.5rem;
+        .game-card {
+            padding: 1.2rem;
+            border-radius: 15px;
+            margin: 0.5rem 0;
         }
         
-        .player-score {
-            font-size: 2.5rem;
+        .player-card {
+            padding: 1rem;
+            border-radius: 15px;
         }
         
         .player-name {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .player-score {
+            font-size: 2.2rem;
+        }
+        
+        .word-display {
+            padding: 1.5rem 1rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+        }
+        
+        .word-text {
+            font-size: 2rem;
+            word-break: break-word;
+        }
+        
+        .word-category {
+            font-size: 1.1rem;
+        }
+        
+        .mode-display {
+            padding: 1rem;
+            border-radius: 15px;
+            margin: 1rem 0;
         }
         
         .mode-text {
-            font-size: 2rem;
+            font-size: 1.8rem;
+        }
+        
+        .mode-display > div:last-child {
+            font-size: 0.9rem !important;
+        }
+        
+        .timer-container {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 15px;
+        }
+        
+        .timer-text {
+            font-size: 3rem;
+        }
+        
+        .timer-bar {
+            height: 15px;
         }
         
         .round-info {
             font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .category-display {
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+        
+        .category-label {
+            font-size: 1.1rem;
+        }
+        
+        .category-value {
+            font-size: 1.3rem;
+        }
+        
+        .reveal-prompt {
+            font-size: 1.1rem;
+            margin: 1rem 0;
+        }
+        
+        .stButton > button {
+            font-size: 1.1rem;
+            padding: 0.8rem 1.5rem;
+            min-height: 50px;
+            border-radius: 25px;
+        }
+        
+        .winner-text {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+        
+        .points-earned {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+        
+        /* Radio buttons mniejsze */
+        .stRadio > div > label {
+            font-size: 1rem !important;
+            padding: 0.6rem 0.8rem !important;
+        }
+        
+        .stMarkdown h3 {
+            font-size: 1.4rem !important;
+            margin-top: 1rem !important;
+        }
+    }
+    
+    /* Telefony - średnie */
+    @media (max-width: 576px) {
+        .main .block-container {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            padding-top: 1rem;
+        }
+        
+        .game-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .game-subtitle {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .game-card {
+            padding: 0.8rem;
+            border-radius: 12px;
+        }
+        
+        .player-card {
+            padding: 0.7rem;
+            border-radius: 12px;
+        }
+        
+        .player-name {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .player-score {
+            font-size: 1.6rem;
+        }
+        
+        .word-display {
+            padding: 1rem 0.8rem;
+            border-radius: 12px;
+            margin: 0.8rem 0;
+        }
+        
+        .word-text {
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+        
+        .word-category {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .mode-display {
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin: 0.8rem 0;
+        }
+        
+        .mode-text {
+            font-size: 1.4rem;
+        }
+        
+        .mode-display > div:last-child {
+            font-size: 0.8rem !important;
+            margin-top: 0.3rem !important;
+        }
+        
+        .timer-container {
+            padding: 0.8rem;
+            margin: 0.8rem 0;
+            border-radius: 12px;
+        }
+        
+        .timer-text {
+            font-size: 2.5rem;
+        }
+        
+        .timer-bar {
+            height: 12px;
+            margin-top: 0.5rem;
+        }
+        
+        .round-info {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .category-display {
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            margin: 0.6rem 0;
+        }
+        
+        .category-label {
+            font-size: 0.9rem;
+        }
+        
+        .category-value {
+            font-size: 1.1rem;
+        }
+        
+        .reveal-prompt {
+            font-size: 0.95rem;
+            margin: 0.8rem 0;
+        }
+        
+        .stButton > button {
+            font-size: 0.95rem;
+            padding: 0.6rem 1rem;
+            min-height: 44px;
+            border-radius: 22px;
+        }
+        
+        .winner-text {
+            font-size: 1.8rem;
+            margin: 0.8rem 0;
+        }
+        
+        .points-earned {
+            font-size: 1.8rem;
+            margin: 0.8rem 0;
+        }
+        
+        /* Radio buttons na telefonie */
+        .stRadio > div {
+            padding: 0.6rem !important;
+            border-radius: 10px !important;
+        }
+        
+        .stRadio > div > label {
+            font-size: 0.9rem !important;
+            padding: 0.5rem 0.6rem !important;
+        }
+        
+        .stMarkdown h3 {
+            font-size: 1.2rem !important;
+            margin-top: 0.8rem !important;
+        }
+        
+        /* Suwak na telefonie */
+        div[data-baseweb="slider"] [role="slider"] {
+            width: 22px !important;
+            height: 22px !important;
+        }
+        
+        /* Serduszka mniejsze na telefonach */
+        .heart {
+            font-size: 15px;
+        }
+    }
+    
+    /* Bardzo małe telefony */
+    @media (max-width: 380px) {
+        .main .block-container {
+            padding-left: 0.3rem;
+            padding-right: 0.3rem;
+        }
+        
+        .game-title {
+            font-size: 1.5rem;
+        }
+        
+        .game-subtitle {
+            font-size: 0.85rem;
+        }
+        
+        .player-name {
+            font-size: 0.9rem;
+        }
+        
+        .player-score {
+            font-size: 1.4rem;
+        }
+        
+        .word-text {
+            font-size: 1.3rem;
+        }
+        
+        .mode-text {
+            font-size: 1.2rem;
+        }
+        
+        .timer-text {
+            font-size: 2rem;
+        }
+        
+        .stButton > button {
+            font-size: 0.85rem;
+            padding: 0.5rem 0.8rem;
+            min-height: 40px;
+        }
+        
+        .winner-text {
+            font-size: 1.5rem;
+        }
+        
+        .points-earned {
+            font-size: 1.5rem;
+        }
+        
+        .round-info {
+            font-size: 1rem;
+        }
+        
+        .reveal-prompt {
+            font-size: 0.85rem;
+        }
+        
+        .category-label,
+        .category-value {
+            font-size: 0.85rem;
+        }
+    }
+    
+    /* Tryb landscape na telefonach */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .game-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .game-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .player-card {
+            padding: 0.5rem;
+        }
+        
+        .word-display {
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+        }
+        
+        .word-text {
+            font-size: 1.5rem;
+        }
+        
+        .mode-display {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        
+        .mode-text {
+            font-size: 1.3rem;
+        }
+        
+        .timer-container {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+        }
+        
+        .timer-text {
+            font-size: 2rem;
+        }
+        
+        .timer-bar {
+            height: 10px;
+        }
+        
+        .stButton > button {
+            min-height: 36px;
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .hearts-container {
+            display: none;
+        }
+    }
+    
+    /* Poprawa dotykowa na urządzeniach mobilnych */
+    @media (hover: none) and (pointer: coarse) {
+        .stButton > button {
+            min-height: 48px;
+        }
+        
+        .player-card:hover {
+            transform: none;
+        }
+        
+        .stButton > button:hover {
+            transform: none;
         }
     }
     </style>
